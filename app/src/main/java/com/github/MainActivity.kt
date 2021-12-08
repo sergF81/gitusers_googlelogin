@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 val ugit: Items<KursValut>? = response.body()
                 login = String.format(ugit!!.login_user)
-                textViewInfo.text = login
+                textViewInfo.text = "hjjj"
 //
             }
 
