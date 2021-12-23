@@ -1,105 +1,45 @@
 package com.github
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.ListView
-import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.github.KursValut
 //import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
-
-
-    // создаем список для отображения данных из массива logList
-    private var listUserView: ListView? = null
-
     //создаем массив, в котором будут храниться данные
-    var userArray: ArrayList<String>? = ArrayList()
+    var userArray: ArrayList<String> = arrayListOf()
 
-    //создаем переменную, в которой будут храниться ссобщения о результатах обмена
-    var infoMessage: String = ""
+    // создаем список для отображения данных из массива userArray
+    var listUserView: ListView? = null
 
+    //переменная, в которой будет хранится данные о логине пользователя
 
-    //массив, в который будет заноситься информация по выполненым транзакциям
-    var log = ArrayList<String>()
-
-    //переменные, в которых будут хранится данные о екрсах валют
-    var login: String = ""
-
-
-    //переменная с адресом сайта, с которого берем данные по курсам валют
-    //val baseUrl = "https://free.currconv.com/api/v7/"
-    //Вариант 1
-    //val baseUrl = "https://api.github.com/"
+    var login: String? = null
     val baseUrl = "https://api.github.com/"
-    lateinit var textViewInfo: TextView
-  //  lateinit var textViewInfoKurs: TextView
-    lateinit var buttonOK: Button
-    lateinit var editTextInsertValue: EditText
-    lateinit var buttonLog: Button
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        textViewInfo = findViewById<TextView>(R.id.textViewInfo)
-        editTextInsertValue = findViewById<EditText>(R.id.editTextInsertValue)
 
-        buttonOK = findViewById<Button>(R.id.buttonOK)
+        listUserView = findViewById(R.id.listUserView)
 
-        editTextInsertValue.visibility = View.INVISIBLE
-        editTextInsertValue.setText("")
-        buttonOK?.visibility = View.INVISIBLE
-
-        //создаем объект, который создает список с данными из массива logList
-       // userArray()
-
-        valueUSD()
-       //  textViewInfoKurs.text = login
-        //  textViewInfoKurs.text = " Курс валют: Доллар - $dollar, Евро - $euro."
-    }
+        addLogInArray()
+        userRetrofit()
+       // println("проверка" + login)
 
 
-    //обработка нажатия кнопки ОК для подтверждения ввода количества валюты для обмена
-    fun onClickOK(view: View) {
-        //переенная для проверки путого значения ввода
-        val proverkaVvoda = editTextInsertValue.text.toString()
 
-        //проверка на пустое значение
-        if (proverkaVvoda == "") {
-            Toast.makeText(
-                this@MainActivity,
-                "Вы не ввели количество валюты для обмена!",
-                Toast.LENGTH_SHORT
-            ).show()
-        } else {
-            textViewInfo.text = "Выберите валюту, которую хотите получить"
-            editTextInsertValue.visibility = View.INVISIBLE
-            buttonOK.visibility = View.INVISIBLE
-        }
+
 
     }
-
-    //обработка нажатия кнопки HISTORY(Log) для передачи данным массива с данными о проделанных операциях обмена валюты в другую активность
-    fun onClickLog(view: View) {
-        //создание интената для новой активности
-        val intent = Intent(this@MainActivity, LogActivity::class.java)
-        //передача массива в другую активность
-        intent.putStringArrayListExtra("log", log)
-        //запукс активности
-        startActivity(intent)
-    }
-
     //создаем функцию для подключения к сайту с данными по курсам валют
 
     val retrofit = Retrofit.Builder()
@@ -107,61 +47,56 @@ class MainActivity : AppCompatActivity() {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    private fun valueUSD() {
+     fun userRetrofit() {
+
         var client: InterfaceAPI = retrofit.create(InterfaceAPI::class.java)
-        val call: Call<Items<KursValut>> = client.getKursUSD()
-        call.enqueue(object : Callback<Items<KursValut>> {
+        val call: Call<Users<Item>> = client.getLoginUser()//this.login ="dddd"
+            //   var a: ArrayList<String> = ArrayList()
+        call.enqueue(object : Callback<Users<Item>> {
 
             override fun onResponse(
-                call: Call<Items<KursValut>>,
-                response: Response<Items<KursValut>>
+                call: Call<Users<Item>>,
+                response: Response<Users<Item>>
             ) {
                 if (!response.isSuccessful) {
                     println("code: " + response.code())
                     return
                 }
-                val ugit: Items<KursValut>? = response.body()
-                login = String.format(ugit!!.login_user)
-                textViewInfo.text = "hjjj"
-//
+                val ugit: Users<Item>? = response.body()
+                if (ugit != null) {
+
+userArray.add(ugit.items.toString())   }
+
+                println("тут выходит нормальный массив" + userArray)
             }
 
-//            override fun onFailure(call: Call<KursValut>, t: Throwable) {
-//                println(t)
-//            }
-
-            override fun onFailure(call: Call<Items<KursValut>>, t: Throwable) {
-                TODO("Not yet implemented")
+            override fun onFailure(call: Call<Users<Item>>, t: Throwable) {
+                println(t)
             }
+
         }
-
         )
+         // это не срабатывает
+         println(" тут выходит пустой массив" + userArray)
     }
 
-//
-//    //объявляем функцию для создания и отображения списка с данными из массива LogList
-//    fun addLogInArray() {
-//
-//        // создаем адаптер списка с данными массива logList
-//        val adapter = object : ArrayAdapter<String>(
-//            this,
-//            android.R.layout.simple_list_item_1, userArray!!
-//        ) {
-//
-//            // меняем размер текста в ListView
-//            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-//                val view = super.getView(position, convertView, parent)
-//                if (view is TextView) {
-//                    view.textSize = 18f
-//                }
-//                return view
-//            }
-//        }
-//
-//        //присваеваем элементам списка выше созданый адаптер
-//        listUserView?.adapter = adapter
-//    }
+
+    //объявляем функцию для создания и отображения списка с данными из массива userArray
+    fun addLogInArray() {
+        println("тут должен выходить заполенные масив, а выходит пустой" + userArray)
+        // создаем адаптер списка с данными массива userArray
+        val adapter = object : ArrayAdapter<String>(
+            this,
+            android.R.layout.simple_list_item_1, userArray
+
+        ) {}
+        //присваеваем элементам списка выше созданый адаптер
+
+        listUserView?.adapter = adapter
+    }
+
 }
+
 
 
 

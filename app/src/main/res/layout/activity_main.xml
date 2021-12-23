@@ -6,60 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-    <TextView
-        android:id="@+id/textViewInfo"
-        android:layout_width="384dp"
-        android:layout_height="21dp"
-        android:text="@string/textViewInfo"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.542"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="47dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="147dp" />
-
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="302dp"
-        android:layout_height="45dp"
-        android:gravity="center|center_horizontal|center_vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewInfo">
-
-        <EditText
-            android:id="@+id/editTextInsertValue"
-            android:layout_width="86dp"
-            android:layout_height="45dp"
-            android:ems="5"
-            android:hint="@string/editTextInsertValue"
-
-            android:inputType="textPersonName" />
-
-        <Button
-            android:id="@+id/buttonOK"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:baselineAligned="false"
-
-            android:onClick="onClickOK"
-            android:text="@string/buttonOK" />
-    </LinearLayout>
-
-    <ListView
-        android:id="@+id/listUserView"
-        android:layout_width="409dp"
-        android:layout_height="616dp"
+        android:layout_width="957dp"
+        android:layout_height="1534dp"
+        android:orientation="vertical"
         tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="114dp" />
+        tools:layout_editor_absoluteY="1dp"
+        tools:ignore="MissingConstraints">
 
+        <ListView
+            android:id="@+id/listUserView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

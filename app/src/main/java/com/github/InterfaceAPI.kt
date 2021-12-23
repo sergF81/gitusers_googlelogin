@@ -11,10 +11,10 @@ interface InterfaceAPI {
   //Вариант 1
    // @GET("users/SergF81")
  // @GET("search/users?q=sergF;page=4;per_page=30")
-  @GET("search/users?q=sergf;page=2;per_page=1")
+  @GET("search/users?q=sergf;page=1;per_page=3")
 
  // @GET("products/cats?category=5&sort=desc")
-  fun getKursUSD(): Call<Items<KursValut>>
+  fun getLoginUser(): Call<Users<Item>>
   // fun getKursUSD()(@Query("items") items: String): Call<KursValut?>?
 
  // fun  getKursUSD(): retrofit2.Call<KursValut>
