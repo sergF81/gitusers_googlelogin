@@ -7,16 +7,92 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:layout_width="957dp"
-        android:layout_height="1534dp"
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp"
-        tools:ignore="MissingConstraints">
+        tools:layout_editor_absoluteX="-38dp"
+        tools:layout_editor_absoluteY="-47dp">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/editSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:layout_weight="1"
+                android:ems="5"
+                android:inputType="textPersonName"
+                android:text="Name" />
+
+            <Button
+                android:id="@+id/buttonSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:layout_weight="1"
+                android:baselineAligned="false"
+                android:onClick="onClickSearch"
+                android:text="@string/buttonSearch" />
+
+        </LinearLayout>
 
         <ListView
             android:id="@+id/listUserView"
+            android:layout_width="wrap_content"
+            android:layout_height="272dp"
+           >
+
+        </ListView>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="1dp"
+                android:layout_height="14dp"
+                android:layout_gravity="center"
+
+                 />
+
+            <Button
+                android:id="@+id/buttonPreview"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="false"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+
+                android:text="@string/buttonPreview"
+                android:onClick="onClickPreview"
+                android:visibility="invisible"
+                />
+
+            <Button
+                android:id="@+id/buttonNext"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="false"
+
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:layout_gravity="right"
+                app:layout_constraintEnd_toEndOf="@id/barrier"
+                android:text="@string/buttonNext"
+                android:onClick="onClickNext"
+                android:visibility="invisible"
+                />
+
+        </LinearLayout>
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

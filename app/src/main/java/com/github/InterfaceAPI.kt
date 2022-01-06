@@ -4,17 +4,31 @@ package com.github
 //import retrofit2.Call
 import retrofit2.Call
 import retrofit2.http.GET
+import okhttp3.ResponseBody
+import retrofit2.http.Query
+
 
 //Создаем интерфейс для Ретрофита
 interface InterfaceAPI {
 
-  //Вариант 1
-   // @GET("users/SergF81")
- // @GET("search/users?q=sergF;page=4;per_page=30")
-  @GET("search/users?q=sergf;page=1;per_page=3")
 
- // @GET("products/cats?category=5&sort=desc")
-  fun getLoginUser(): Call<Users<Item>>
+  @GET("search/users?per_page=30")
+
+  fun getLoginUser(
+    @Query("q") userSearch: String, @Query("page") pageNumber: Int
+  ): Call<Users<Item>>
+
+
+
+  @GET("/friends")
+  fun friends(@Query("group") group: String?): Call<ResponseBody?>?
+
+
+//  @GET("products/list?sort=desc")
+//  fun productList(@Query("category") categoryId: Int): Call<List<Product?>?>?
+
+  //fun getLoginUser(): Call<Users<Item>>
+
   // fun getKursUSD()(@Query("items") items: String): Call<KursValut?>?
 
  // fun  getKursUSD(): retrofit2.Call<KursValut>

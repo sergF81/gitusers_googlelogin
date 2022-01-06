@@ -1,11 +1,12 @@
 <resources>
-    <string name="app_name">ManyExchange</string>
-    <string name="buttonRub">RUB</string>
-    <string name="buttonDollar">USD</string>
-    <string name="buttonEuro">EURO</string>
-    <string name="textViewInfo">Выберите валюту, которую хотите обменять</string>
-    <string name="editTextInsertValue">0</string>
-    <string name="buttonOK">OK</string>
-    <string name="buttonRestart">Restart</string>
-    <string name="buttonLog">History</string>
+    <string name="app_name">CIA_Searcher</string>
+    <string name="buttonSearch">Search</string>
+    <string name="buttonNext">Next</string>
+    <string name="buttonReturn">Return</string>
+    <string name="buttonPreview">Preview</string>
+    <string name="textViewLogin">Login: </string>
+    <string name="textViewGeneral">General Info about subject:</string>
+    <string name="textViewId">ID: </string>
+    <string name="textViewAvatar">Avatar: </string>
+
 </resources>

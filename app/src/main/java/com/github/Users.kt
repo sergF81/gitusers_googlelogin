@@ -2,6 +2,8 @@ package com.github
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.net.URI
+import java.net.URL
 import java.util.ArrayList
 
 //Класс для получения даных из JSON ответа
@@ -43,15 +45,23 @@ import java.util.ArrayList
 //    val url: String
 //)
 
-data class Users<T>(
+data class Users<Item>(
     @SerializedName("items")
 
   val items: List<Item>
+
 )
 
 data class Item(
     @SerializedName("login")
 
-    val login_user: String
+    val loginUser: String,
+    val id: String,
+    @SerializedName("avatar_url")
+    val avatarUrl: String
+
 )
+
+
+
 
