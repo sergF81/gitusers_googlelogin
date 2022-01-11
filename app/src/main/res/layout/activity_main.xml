@@ -32,10 +32,10 @@
 
             <Button
                 android:id="@+id/buttonSearch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginEnd="50dp"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
                 android:layout_weight="1"
                 android:baselineAligned="false"
                 android:onClick="onClickSearch"
@@ -55,39 +55,28 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier"
-                android:layout_width="1dp"
-                android:layout_height="14dp"
-                android:layout_gravity="center"
-
-                 />
 
             <Button
                 android:id="@+id/buttonPreview"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:layout_height="50dp"
-                android:layout_centerInParent="false"
-                android:layout_marginStart="50dp"
-                android:layout_marginEnd="50dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
 
-                android:text="@string/buttonPreview"
+                android:layout_weight="1"
                 android:onClick="onClickPreview"
-                android:visibility="invisible"
-                />
+                android:text="@string/buttonPreview"
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/buttonNext"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:layout_height="50dp"
-                android:layout_centerInParent="false"
-
-                android:layout_marginStart="50dp"
-                android:layout_marginEnd="50dp"
-                android:layout_gravity="right"
-                app:layout_constraintEnd_toEndOf="@id/barrier"
-                android:text="@string/buttonNext"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_weight="1"
                 android:onClick="onClickNext"
+                android:text="@string/buttonNext"
                 android:visibility="invisible"
                 />
 

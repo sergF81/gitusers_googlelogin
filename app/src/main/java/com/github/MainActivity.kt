@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
     //переменная, в которой будет хранится данные о логине пользователя
 
     val baseUrl = "https://api.github.com/"
+    val token  = "ghp_16C7e42F292c6912E7710c838347Ae178B4a"
     lateinit var buttonSearch: Button
     lateinit var editSearch: TextView
     lateinit var buttonNext: Button
@@ -85,7 +86,7 @@ class MainActivity : AppCompatActivity() {
 
     fun userRetrofit() {
         var client: InterfaceAPI = retrofit.create(InterfaceAPI::class.java)
-        val call: Call<Users<Item>> = client.getLoginUser(userSearch, pageNumber)
+        val call: Call<Users<Item>> = client.getLoginUser(userSearch, pageNumber, token)
         call.enqueue(object : Callback<Users<Item>> {
 
             override fun onResponse(
@@ -104,7 +105,7 @@ class MainActivity : AppCompatActivity() {
 
                 }
                 if (ugit?.items?.size!! < 30) {
-                    buttonNext.setVisibility(View.GONE)
+                    buttonNext.setVisibility(View.INVISIBLE)
                 }
 
                 addLogInArray()
@@ -113,6 +114,8 @@ class MainActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<Users<Item>>, t: Throwable) {
                 println(t)
+                buttonNext.setVisibility(View.INVISIBLE)
+                pageNumber --
             }
 
         }
@@ -169,7 +172,7 @@ class MainActivity : AppCompatActivity() {
             buttonNext.setVisibility(View.VISIBLE)
         }
 
-        if (pageNumber == 1) buttonPreview.setVisibility(View.GONE)
+        if (pageNumber == 1) buttonPreview.setVisibility(View.INVISIBLE)
         userArray.clear()
         userIdArray.clear()
         userAvatarArray.clear()
