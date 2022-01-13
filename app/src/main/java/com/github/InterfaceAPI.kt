@@ -12,47 +12,14 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 
-
-
-
 //Создаем интерфейс для Ретрофита
 interface InterfaceAPI {
 
-
   @GET("search/users?per_page=30")
-
   fun getLoginUser(
     @Query("q") userSearch: String,
     @Query("page") pageNumber: Int,
-    @Header("Authorization") token: String
+    //@Header("Authorization") token: String
   ): Call<Users<Item>>
-
-
-
-  @GET("/friends")
-  fun friends(@Query("group") group: String?): Call<ResponseBody?>?
-
-
-//  @GET("/api/v1/datasets")
-//  fun getData(
-//    @Query("id") count: Int,
-//    @Query("name") resourceName: String?,
-//    @Header("Authorization") token: String?
-//  ): Call<List<PostModel?>?>?
-
-//  @GET("products/list?sort=desc")
-//  fun productList(@Query("category") categoryId: Int): Call<List<Product?>?>?
-
-  //fun getLoginUser(): Call<Users<Item>>
-
-  // fun getKursUSD()(@Query("items") items: String): Call<KursValut?>?
-
- // fun  getKursUSD(): retrofit2.Call<KursValut>
-
-//    @GET("convert?q=EUR_RUB&compact=ultra&apiKey=251cfe6d05e69f7f3a6e")
-//    fun  getKursEUR(): retrofit2.Call<KursValut>
-
-
-
 
 }
