@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/textViewGeneral"
-            android:textSize="@dimen/fontSizeGeneralText" />
+            />
 
         <TextView
             android:id="@+id/textViewLogin"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginTop"
             android:text="@string/textViewLogin"
-            android:textSize="@dimen/fontSizeText" />
+             />
 
 
         <TextView
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginTop"
             android:text="@string/textViewId"
-            android:textSize="@dimen/fontSizeText" />
+            />
 
         <TextView
             android:id="@+id/textViewAvatar"
@@ -43,7 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginTop"
             android:text="@string/textViewAvatar"
-            android:textSize="@dimen/fontSizeText" />
+
+          />
 
         <ImageView
             android:id="@+id/imageView"

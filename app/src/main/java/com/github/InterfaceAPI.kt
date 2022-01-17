@@ -19,6 +19,7 @@ interface InterfaceAPI {
   fun getLoginUser(
     @Query("q") userSearch: String,
     @Query("page") pageNumber: Int,
+   //данная аннотация нужна для подставления тоекна без использования okhttp
     //@Header("Authorization") token: String
   ): Call<Users<Item>>
 

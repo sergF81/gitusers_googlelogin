@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">CIA_Searcher</string>
+    <string name="app_name">CIA_terminal</string>
     <string name="buttonSearch">Search</string>
-    <string name="buttonNext">Next</string>
+    <string name="buttonNext">next</string>
     <string name="buttonReturn">Return</string>
     <string name="buttonPreview">Preview</string>
     <string name="textViewLogin">Login: </string>

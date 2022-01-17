@@ -31,6 +31,7 @@ class InfoActivity : AppCompatActivity() {
     lateinit var imageView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Github)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info)
         textViewGeneral = findViewById(R.id.textViewGeneral)

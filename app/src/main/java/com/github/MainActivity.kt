@@ -19,36 +19,45 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainActivity : AppCompatActivity() {
-    //создаем массив, в котором будут храниться данные
+    //создаем массивы, в котором будут храниться данные о логине пользователя
     var userArray: ArrayList<String> = arrayListOf()
+    //создаем массивы, в котором будут храниться данные о логине пользователя при недоступности сервера
     var userArrayOffLine: ArrayList<String> = arrayListOf()
+    //создаем массивы, в котором будут храниться данные о ID пользователя
     var userIdArray: ArrayList<String> = arrayListOf()
+    //создаем массивы, в котором будут храниться данные о ID пользователя при недоступности сервера
     var userIdArrayOffLine: ArrayList<String> = arrayListOf()
+    //создаем массивы, в котором будут храниться данные о аватаре пользователя
     var userAvatarArray: ArrayList<String> = arrayListOf()
+    //создаем массивы, в котором будут храниться данные о аватаре пользователя при недоступности сервера
     var userAvatarArrayOffLine: ArrayList<String> = arrayListOf()
     var errorRetrofit: Boolean = false
     var pageNumber: Int = 1
     var pageNumberOnPause: Int = 0
-
+    //переменная, в которой будет хранится данные о ввдееном логине пользователя для поиска
     var userSearch: String = ""
 
     // создаем список для отображения данных из массива userArray
     var listUserView: ListView? = null
 
-    //переменная, в которой будет хранится данные о логине пользователя
 
+    // переменная для хранения ссылки к API серверу
     val baseUrl = "https://api.github.com/"
 
-    // val token  = "ghp_16C7e42F292c6912E7710c838347Ae178B4a"
-    val token = "bearer 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"
+    //данная константа необходима для работы с API без использования okhttp
+    //val token = "bearer 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"
 
+    val token = "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"
+
+    //иниуиализация переменных для элементов Активити
     lateinit var buttonSearch: Button
     lateinit var editSearch: TextView
     lateinit var buttonNext: Button
     lateinit var buttonPreview: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
+        //устанавливаем другую тему
+        setTheme(R.style.Github)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -96,7 +105,7 @@ class MainActivity : AppCompatActivity() {
     val retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
         .addConverterFactory(GsonConverterFactory.create())
-        //  .client(okHttpClient)
+        .client(okHttpClient)
         .build()
 
     fun userRetrofit() {
