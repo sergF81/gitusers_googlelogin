@@ -20,17 +20,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
     //создаем массивы, в котором будут храниться данные о логине пользователя
-    var userArray: ArrayList<String> = arrayListOf()
+    var userArray: MutableList<String> = mutableListOf()
     //создаем массивы, в котором будут храниться данные о логине пользователя при недоступности сервера
-    var userArrayOffLine: ArrayList<String> = arrayListOf()
+    var userArrayOffLine: MutableList<String> = mutableListOf()
     //создаем массивы, в котором будут храниться данные о ID пользователя
-    var userIdArray: ArrayList<String> = arrayListOf()
+    var userIdArray: MutableList<String> = mutableListOf()
     //создаем массивы, в котором будут храниться данные о ID пользователя при недоступности сервера
-    var userIdArrayOffLine: ArrayList<String> = arrayListOf()
+    var userIdArrayOffLine: MutableList<String> = mutableListOf()
     //создаем массивы, в котором будут храниться данные о аватаре пользователя
-    var userAvatarArray: ArrayList<String> = arrayListOf()
+    var userAvatarArray: MutableList<String> = mutableListOf()
     //создаем массивы, в котором будут храниться данные о аватаре пользователя при недоступности сервера
-    var userAvatarArrayOffLine: ArrayList<String> = arrayListOf()
+    var userAvatarArrayOffLine: MutableList<String> = mutableListOf()
     var errorRetrofit: Boolean = false
     var pageNumber: Int = 1
     var pageNumberOnPause: Int = 0
@@ -86,11 +86,9 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-
-
     }
 
-    //создаем функцию для подключения к сайту github.com
+    //создаем функцию для подключения к сайту github.com - она не работает, так как github удалаяет токены, которые опубликованы в репозиториях.
     var okHttpClient: OkHttpClient? = OkHttpClient().newBuilder().addInterceptor { chain ->
         val originalRequest: Request = chain.request()
         val builder: Request.Builder = originalRequest.newBuilder().header(
@@ -105,7 +103,7 @@ class MainActivity : AppCompatActivity() {
     val retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
         .addConverterFactory(GsonConverterFactory.create())
-        .client(okHttpClient)
+        // .client(okHttpClient)
         .build()
 
     fun userRetrofit() {
@@ -119,11 +117,9 @@ class MainActivity : AppCompatActivity() {
             ) {
                 if (!response.isSuccessful) {
                     println("code: " + response.code())
-                    userArray = userArrayOffLine.clone() as ArrayList<String>
-                    userIdArray = userIdArrayOffLine.clone() as ArrayList<String>
-                    userAvatarArray = userAvatarArrayOffLine.clone() as ArrayList<String>
-
-                    println(userArrayOffLine)
+                    userArray = userArrayOffLine.toMutableList()
+                    userIdArray = userIdArrayOffLine.toMutableList()
+                    userAvatarArray = userAvatarArrayOffLine.toMutableList()
                     errorData()
                     pageNumber = pageNumberOnPause
                     if (userArray.isEmpty()) {
@@ -134,18 +130,29 @@ class MainActivity : AppCompatActivity() {
                     return
                 }
                 if (pageNumber == 1) buttonNext.setVisibility(View.VISIBLE)
-                val ugit: Users<Item>? = response.body()
-                for (i in 0 until (ugit?.items?.size!!)) {
-                    userArray.add(ugit.items[i].loginUser)
-                    userIdArray.add(ugit.items[i].id)
-                    userAvatarArray.add(ugit.items[i].avatarUrl)
+//                val ugit: Users<Item>? = response.body()
+//                for (i in 0 until (ugit?.items?.size!!)) {
+//                    userArray.add(ugit.items[i].loginUser)
+//                    userIdArray.add(ugit.items[i].id)
+//                    userAvatarArray.add(ugit.items[i].avatarUrl)
+//                }
+//                if (ugit?.items?.size!! < 30) {
+//                    buttonNext.setVisibility(View.INVISIBLE)
+//                }
+                val users = response.body()?.items.orEmpty()
+                users.forEach {
+                    userArray.add(it.loginUser)
+                    userIdArray.add(it.id)
+                    userAvatarArray.add(it.avatarUrl)
                 }
-                if (ugit?.items?.size!! < 30) {
+                if (users.size < 30) {
                     buttonNext.setVisibility(View.INVISIBLE)
                 }
-                userArrayOffLine = userArray.clone() as ArrayList<String>
-                userIdArrayOffLine = userIdArray.clone() as ArrayList<String>
-                userAvatarArrayOffLine = userAvatarArray.clone() as ArrayList<String>
+
+
+                userArrayOffLine = userArray.toMutableList()
+                userIdArrayOffLine = userIdArray.toMutableList()
+                userAvatarArrayOffLine = userAvatarArray.toMutableList()
                 addLogInArray()
             }
 
@@ -185,28 +192,21 @@ class MainActivity : AppCompatActivity() {
         userSearch = editSearch.text.toString()
         pageNumber = 1
         clearAllArrayAndStartRetrofit()
-        println(pageNumber)
-        //вызываем функцию для работы с github через Retofit
     }
 
     fun onClickNext(view: View) {
-        if (errorRetrofit) {
-            println("массив содержит это: " + userArray)
-        } else {
+        if (!errorRetrofit){
             userSearch = editSearch.text.toString()
-            if (pageNumber > 0) buttonPreview.setVisibility(View.VISIBLE)
+            if (pageNumber >= 1) buttonPreview.setVisibility(View.VISIBLE) else buttonPreview.setVisibility(View.INVISIBLE)
             pageNumberOnPause = pageNumber
             pageNumber++
             clearAllArrayAndStartRetrofit()
-            println(pageNumber)
         }
     }
 
-
+    //объявляем функцию для обработки нажатия на клавишу Next
     fun onClickPreview(view: View) {
-        if (errorRetrofit) {
-            println("массив содержит это: " + userArray)
-        } else {
+        if (!errorRetrofit){
             userSearch = editSearch.text.toString()
             if (pageNumber > 1) {
                 pageNumberOnPause = pageNumber
@@ -214,10 +214,10 @@ class MainActivity : AppCompatActivity() {
                 buttonNext.setVisibility(View.VISIBLE)
             }
             clearAllArrayAndStartRetrofit()
-            println(pageNumber)
         }
     }
 
+    //объявляем функцию для выведения Тоаста в случае превышения лимита подключений.
     fun errorData() {
         Toast.makeText(
             this,
@@ -226,6 +226,7 @@ class MainActivity : AppCompatActivity() {
         ).show()
     }
 
+    //объявляем функцию для очистки всех массссивов для он-лайн работы, а так же запуск функции retrofit()
     fun clearAllArrayAndStartRetrofit() {
         userArray.clear()
         userIdArray.clear()
