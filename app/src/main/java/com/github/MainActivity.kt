@@ -7,7 +7,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -19,6 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainActivity : AppCompatActivity() {
+ //   var states = ArrayList<String>()
     //создаем массивы, в котором будут храниться данные о логине пользователя
     var userArray: MutableList<String> = mutableListOf()
     //создаем массивы, в котором будут храниться данные о логине пользователя при недоступности сервера
@@ -38,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     var userSearch: String = ""
 
     // создаем список для отображения данных из массива userArray
-    var listUserView: ListView? = null
+  //  var listUserView: ListView? = null
 
 
     // переменная для хранения ссылки к API серверу
@@ -54,6 +56,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var editSearch: TextView
     lateinit var buttonNext: Button
     lateinit var buttonPreview: Button
+    lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //устанавливаем другую тему
@@ -61,31 +64,48 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        listUserView = findViewById(R.id.listUserView)
+
         buttonSearch = findViewById(R.id.buttonSearch)
         editSearch = findViewById(R.id.editSearch)
         buttonNext = findViewById(R.id.buttonNext)
         buttonPreview = findViewById(R.id.buttonPreview)
-        listUserView?.isClickable = false
+ //       recyclerView = findViewById(R.id.buttonPreview)
+//        listUserView?.isClickable = false
+
+//        states.add("Бразилиа")
+//        states.add("Аргентина")
+//        states.add("Колумбия")
+//        states.add("Уругвай")
+//        states.add("Чили")
+
+
+
+
+//    @Override
+//    public void onItemClick(View view, int position) {
+//        Toast.makeText(this, "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
+//
+
+
         //обработка нажатия на выбранный элемент ListView
-        listUserView?.setOnItemClickListener { parent, view, position, id ->
-
-            //создание интента для новой активности
-            if (errorRetrofit) {
-
-                errorData()
-            } else {
-                val intent = Intent(this@MainActivity, InfoActivity::class.java)
-                //передача данных в другую активность
-                intent.putExtra("userSearch", userSearch)
-                intent.putExtra("login", userArray[id.toInt()])
-                intent.putExtra("id", userIdArray[id.toInt()])
-                intent.putExtra("avatar", userAvatarArray[id.toInt()])
-
-                //запуск новой активности
-                startActivity(intent)
-            }
-        }
+//        listUserView?.setOnItemClickListener { parent, view, position, id ->
+//
+//            //создание интента для новой активности
+//            if (errorRetrofit) {
+//
+//                errorData()
+//            } else {
+//                val intent = Intent(this@MainActivity, InfoActivity::class.java)
+//                //передача данных в другую активность
+//                intent.putExtra("userSearch", userSearch)
+//                intent.putExtra("login", userArray[id.toInt()])
+//                intent.putExtra("id", userIdArray[id.toInt()])
+//                intent.putExtra("avatar", userAvatarArray[id.toInt()])
+//
+//                //запуск новой активности
+//                startActivity(intent)
+//            }
+//        }
     }
 
     //создаем функцию для подключения к сайту github.com - она не работает, так как github удалаяет токены, которые опубликованы в репозиториях.
@@ -130,15 +150,7 @@ class MainActivity : AppCompatActivity() {
                     return
                 }
                 if (pageNumber == 1) buttonNext.setVisibility(View.VISIBLE)
-//                val ugit: Users<Item>? = response.body()
-//                for (i in 0 until (ugit?.items?.size!!)) {
-//                    userArray.add(ugit.items[i].loginUser)
-//                    userIdArray.add(ugit.items[i].id)
-//                    userAvatarArray.add(ugit.items[i].avatarUrl)
-//                }
-//                if (ugit?.items?.size!! < 30) {
-//                    buttonNext.setVisibility(View.INVISIBLE)
-//                }
+
                 val users = response.body()?.items.orEmpty()
                 users.forEach {
                     userArray.add(it.loginUser)
@@ -153,7 +165,7 @@ class MainActivity : AppCompatActivity() {
                 userArrayOffLine = userArray.toMutableList()
                 userIdArrayOffLine = userIdArray.toMutableList()
                 userAvatarArrayOffLine = userAvatarArray.toMutableList()
-                addLogInArray()
+             //   addLogInArray()
             }
 
             override fun onFailure(call: Call<Users<Item>>, t: Throwable) {
@@ -164,33 +176,37 @@ class MainActivity : AppCompatActivity() {
     }
 
     //объявляем функцию для создания и отображения списка логинов с данными из массива userArray
-    fun addLogInArray() {
-        if (userArray.isEmpty()) {
-            // создаем адаптер списка логинов с данными массива userArray
-            val adapter = object : ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1, userArray
-            ) {
-            }
-            //присваеваем элементам списка выше созданый адаптер
-            listUserView?.adapter = adapter
-        } else {
-            // создаем адаптер списка логинов с данными массива userArray
-            val adapter = object : ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1, userArrayOffLine
-            ) {
-            }
-            //присваеваем элементам списка выше созданый адаптер
-            listUserView?.adapter = adapter
-            if (pageNumber == 1) buttonPreview.setVisibility(View.INVISIBLE)
-        }
-    }
+//    fun addLogInArray() {
+//        if (userArray.isEmpty()) {
+//            // создаем адаптер списка логинов с данными массива userArray
+//            val adapter = object : ArrayAdapter<String>(
+//                this,
+//                android.R.layout.simple_list_item_1, userArray
+//            ) {
+//            }
+//            //присваеваем элементам списка выше созданый адаптер
+//            listUserView?.adapter = adapter
+//        } else {
+//            // создаем адаптер списка логинов с данными массива userArray
+//            val adapter = object : ArrayAdapter<String>(
+//                this,
+//                android.R.layout.simple_list_item_1, userArrayOffLine
+//            ) {
+//            }
+//            //присваеваем элементам списка выше созданый адаптер
+//            listUserView?.adapter = adapter
+//            if (pageNumber == 1) buttonPreview.setVisibility(View.INVISIBLE)
+//        }
+//    }
 
     //объявляем функцию обработки нажатия на кнопку buttonSearch - поиск для введеного логина на сервере github
     fun onClickSearch(view: View) {
         userSearch = editSearch.text.toString()
         pageNumber = 1
+        recyclerView = findViewById(R.id.listUserView)
+        var adapter = RecyclerViewAdapter(this, userArray);
+        //   adapter.setClickListener(this);
+        recyclerView.adapter = adapter;
         clearAllArrayAndStartRetrofit()
     }
 
@@ -226,7 +242,7 @@ class MainActivity : AppCompatActivity() {
         ).show()
     }
 
-    //объявляем функцию для очистки всех массссивов для он-лайн работы, а так же запуск функции retrofit()
+    //объявляем функцию для очистки всех массивов для он-лайн работы, а так же запуск функции retrofit()
     fun clearAllArrayAndStartRetrofit() {
         userArray.clear()
         userIdArray.clear()
