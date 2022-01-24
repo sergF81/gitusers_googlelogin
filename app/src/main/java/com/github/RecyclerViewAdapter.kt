@@ -29,7 +29,7 @@ import android.view.View
            // val state = states[position]
             holder.nameView.text = userArray[position]
             println(userArray[position])
-            println("Суккааааааа")
+            println("Проверка")
            // holder.capitalView.text = state.capital
         }
 
@@ -43,7 +43,7 @@ import android.view.View
 
             init {
                 nameView = view.findViewById(R.id.textViewUserRow)
-                println("Суккааааааа")
+                println("Проверка 2")
             }
         }
 
