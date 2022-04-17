@@ -16,6 +16,14 @@
 
             android:name=".InfoActivity"
             android:exported="false" />
+        <activity
+
+            android:name=".ListActivity"
+            android:exported="false" />
+        <activity
+
+            android:name=".ProfileActivity"
+            android:exported="false" />
 
         <activity android:theme="@style/SplashLauncher"
             android:name=".MainActivity"
